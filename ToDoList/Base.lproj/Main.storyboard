@@ -61,8 +61,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="LISTA DE PENDIENTES" id="1MV-Ex-Ov8">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="I44-xM-tWT"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="I44-xM-tWT">
+                            <connections>
+                                <action selector="addNewTask:" destination="BYZ-38-t0r" id="qhf-jQ-FsN"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="toDoListTable" destination="w2C-tk-OqP" id="i9f-UQ-Ccg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
