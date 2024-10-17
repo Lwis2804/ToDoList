@@ -14,11 +14,15 @@ class ViewController: UIViewController {
     
     var toDoListTask = [Tarea]()
     
+    //REFERENCIA AL CONTENER DE CORE DATA
     let contexto = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        toDoListTable.dataSource = self
+        toDoListTable.delegate = self
+        readTasks()
     }
 
     
@@ -27,16 +31,18 @@ class ViewController: UIViewController {
         
         let alert = UIAlertController(title: "Nueva", message: "Tarea", preferredStyle: .alert)
         
-        let actionAccept = UIAlertAction(title: "Agregar", style: .default) {_ in
+        let actionAccept = UIAlertAction(title: "Agregar", style: .default) { (_) in
             let newTask = Tarea(context: self.contexto)
-            newTask.name = taskName.text
-            newTask.realized = false
+            newTask.nombre = taskName.text
+            newTask.realizada = false
             self.toDoListTask.append(newTask)
-            
+
             self.saveTask()
+
+            
         }
         alert.addTextField{ textFieldAlert in
-            textFieldAlert.placeholder = "Escribe tu nota aqui"
+            textFieldAlert.placeholder = "Escribe tu tarea aqui ..."
             taskName = textFieldAlert
             }
         
@@ -47,12 +53,19 @@ class ViewController: UIViewController {
     func saveTask(){
         do {
             try contexto.save()
-        } catch  {
+        }   catch  {
             print(error.localizedDescription)
         }
-        
         self.toDoListTable.reloadData()
-        
+    }
+    
+    func readTasks() {
+        let solicitud : NSFetchRequest<Tarea> = Tarea.fetchRequest()
+        do {
+            toDoListTask =  try contexto.fetch(solicitud)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
 
@@ -67,11 +80,11 @@ extension ViewController: UITableViewDelegate & UITableViewDataSource {
         let cell = toDoListTable.dequeueReusableCell(withIdentifier: "celda", for: indexPath)
         let tarea = toDoListTask[indexPath.row]
         // ternario
-        cell.textLabel?.text = tarea.name
-        cell.textLabel?.textColor = tarea.realized ? .black : .blue
-        cell.detailTextLabel?.text = tarea.realized ? "Completada" : "Por completar"
+        cell.textLabel?.text = tarea.nombre
+        cell.textLabel?.textColor = tarea.realizada ? .black : .blue
+        cell.detailTextLabel?.text = tarea.realizada ? "Completada" : "Por completar"
         // marcar con paloma las tareas completadas
-        cell.accessoryType = tarea.realized ? .checkmark : .none
+        cell.accessoryType = tarea.realizada ? .checkmark : .none
         
         return cell
     }
@@ -79,3 +92,4 @@ extension ViewController: UITableViewDelegate & UITableViewDataSource {
     
     
 }
+
