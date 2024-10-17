@@ -96,6 +96,13 @@ extension ViewController: UITableViewDelegate & UITableViewDataSource {
         }else{
             toDoListTable.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
+        
+        // editar core data
+        toDoListTask[indexPath.row].realizada = !toDoListTask[indexPath.row].realizada
+        saveTask()
+        
+        //des seleccionar la tarea
+        toDoListTable.deselectRow(at: indexPath, animated: true)
     }
     
     
