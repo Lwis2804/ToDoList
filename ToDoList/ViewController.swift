@@ -105,6 +105,15 @@ extension ViewController: UITableViewDelegate & UITableViewDataSource {
         toDoListTable.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let eliminateCell  = UIContextualAction(style: .normal, title: "Eliminar") { [self]_,_,_ in 
+            contexto.delete(toDoListTask[indexPath.row]) //eliminar objeto del contexto (informacion que permanece)
+            toDoListTask.remove(at: indexPath.row)
+            saveTask()
+        }
+        eliminateCell.backgroundColor = .red
+        return UISwipeActionsConfiguration(actions: [eliminateCell])
+    }
     
     
 }
