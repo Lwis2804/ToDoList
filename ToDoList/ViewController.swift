@@ -89,6 +89,15 @@ extension ViewController: UITableViewDelegate & UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // palomear tarea                //indexpath indica la celda que el usuario selecciona
+        if toDoListTable.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+            toDoListTable.cellForRow(at: indexPath)?.accessoryType = .none
+        }else{
+            toDoListTable.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        }
+    }
+    
     
     
 }
